@@ -2,17 +2,22 @@ import { getPostBySlug, getPostSlugs } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import type { Metadata } from 'next'
 
+type PageProps = {
+  params: { slug: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
+}
+
+// ---------- static params ----------
 export async function generateStaticParams() {
   return getPostSlugs().map((s) => ({
     slug: s.replace(/\.mdx?$/, ''),
   }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string }
-}): Promise<Metadata> {
+// ---------- metadata ----------
+export async function generateMetadata(
+  { params }: PageProps
+): Promise<Metadata> {
   const { frontMatter } = await getPostBySlug(params.slug)
   return {
     title: `${frontMatter.title} | MyBeruf Blog`,
@@ -20,11 +25,8 @@ export async function generateMetadata({
   }
 }
 
-export default async function BlogPost({
-  params,
-}: {
-  params: { slug: string }
-}) {
+// ---------- page component ----------
+export default async function BlogPost({ params }: PageProps) {
   const { mdxSource, frontMatter } = await getPostBySlug(params.slug)
 
   return (
