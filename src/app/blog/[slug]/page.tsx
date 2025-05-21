@@ -2,11 +2,6 @@ import { getPostBySlug, getPostSlugs } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import type { Metadata } from 'next'
 
-type PageProps = {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
-
 // ---------- static params ----------
 export async function generateStaticParams() {
   return getPostSlugs().map((s) => ({
