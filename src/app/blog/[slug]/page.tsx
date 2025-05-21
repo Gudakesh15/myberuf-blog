@@ -2,14 +2,14 @@ import { getPostBySlug, getPostSlugs } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import type { Metadata } from 'next'
 
-// ---------- static params ----------
+// --------- static params ----------
 export async function generateStaticParams() {
   return getPostSlugs().map((s) => ({
     slug: s.replace(/\.mdx?$/, ''),
   }))
 }
 
-// ---------- metadata ----------
+// --------- metadata ----------
 export async function generateMetadata(
   { params }: { params: { slug: string } }
 ): Promise<Metadata> {
@@ -20,13 +20,10 @@ export async function generateMetadata(
   }
 }
 
-// ---------- page component ----------
-export default async function BlogPost({
-  params,
-}: {
-  params: { slug: string }
-}) {
+// --------- page component ----------
+export default async function BlogPost({ params }: { params: { slug: string } }) {
   const { mdxSource, frontMatter } = await getPostBySlug(params.slug)
+
   return (
     <article className="prose lg:prose-xl mx-auto py-16">
       <h1>{frontMatter.title}</h1>
