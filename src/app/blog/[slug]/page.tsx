@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 
 // ---------- metadata ----------
 export async function generateMetadata(
-  { params }: PageProps
+  { params }: { params: { slug: string } }
 ): Promise<Metadata> {
   const { frontMatter } = await getPostBySlug(params.slug)
   return {
@@ -21,9 +21,12 @@ export async function generateMetadata(
 }
 
 // ---------- page component ----------
-export default async function BlogPost({ params }: PageProps) {
+export default async function BlogPost({
+  params,
+}: {
+  params: { slug: string }
+}) {
   const { mdxSource, frontMatter } = await getPostBySlug(params.slug)
-
   return (
     <article className="prose lg:prose-xl mx-auto py-16">
       <h1>{frontMatter.title}</h1>
