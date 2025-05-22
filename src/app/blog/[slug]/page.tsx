@@ -3,12 +3,14 @@ import { getPostBySlug, getPostSlugs } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import type { Metadata } from 'next'
 
+// ✅ Correctly typed function to generate static paths
 export async function generateStaticParams() {
   return getPostSlugs().map((s) => ({
     slug: s.replace(/\.mdx?$/, ''),
   }))
 }
 
+// ✅ Metadata generation with correct props typing
 export async function generateMetadata(
   { params }: { params: { slug: string } }
 ): Promise<Metadata> {
@@ -19,7 +21,14 @@ export async function generateMetadata(
   }
 }
 
-export default async function BlogPost({ params }: { params: { slug: string } }) {
+// ✅ Main blog post page — FIXED typing here
+type BlogPostProps = {
+  params: {
+    slug: string
+  }
+}
+
+export default async function BlogPost({ params }: BlogPostProps) {
   const { mdxSource, frontMatter } = await getPostBySlug(params.slug)
   return (
     <article className="prose lg:prose-xl mx-auto py-16">
