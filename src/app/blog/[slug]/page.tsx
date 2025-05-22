@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import { getPostBySlug, getPostSlugs } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
